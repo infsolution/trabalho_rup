@@ -1,0 +1,27 @@
+{% extends "store/base.html" %}
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+<h5>Venda</h5>
+	<h4>{{carro.modelo}}</h4>
+	<form method="POST" accept-charset="utf-8">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<p><label>Proprietário</label>
+		<input type="text" name="proprietario" class="form-control" maxlength="100" value="{{carro.user.username}}" disabled></p>
+		<p><label>Comprador</label>
+		<input type="text" name="comprador" class="form-control" maxlength="100" value="{{user.username}}" disabled></p>
+		<p><label>Valor</label>
+		<input type="number" name="preco" class="form-control" maxlength="100" value="{{carro.preco}}" disabled></p>
+
+		<button class="btn btn-lg btn-primary btn-block" type="submit"> Comprar</button>
+		<a class="btn btn-lg btn-danger btn-block" href="{% url 'perfil' %}">Cancelar venda</a>
+	</form>
+		
+</div>	
+
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "store/base.html" %}
+{% block body %}
+<dir class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Vendcar</h1>
+        <strong><p>Aqui você vende seu carro.</p></strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <h5>Você também pode gostar:</h5>
+      {% if sugestoes %}
+      {% for sugestao in sugestoes %}
+        <div class="card mb-3">
+          <a href="{% url 'detalhes' sugestao.id %}">
+          <img class="card-img-top" src="{{sugestao.foto}}" alt="{{sugestao.modelo}}">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">{{sugestao.modelo}} {{sugestao.ano_modelo}}</h5>
+            <p class="card-text">{{sugestao.data_do_anuncio}}</p>
+          </div>
+        </div>  
+
+
+      {% endfor %}
+      {% else %}
+      <h5>Opa! Nenhuma sugestão =(</h5>
+      {% endif %}
+    </div>
+    <div class="col-md-9">
+
+        
+        <h2>{{carro.modelo}}</h2>
+
+        <div class="card mb-3">
+          <img class="card-img-top" src="{{carro.foto}}" alt="{{carro.modelo}}">
+          <div class="card-body">
+            <div class="row">
+          <div class="col-sm-6">
+            <div class="card border-0">
+              <div class="card-body">
+                <h5 class="card-title">{{carro.modelo}}</h5>
+            <p class="card-text">{{carro.descricao}}</p>
+            <p class="card-text">Modelo: {{carro.ano_modelo}}/Fabricação: {{ carro.ano_fabricacao }}</p>
+            <p class="card-text">{{carro.data_do_anuncio}}</p>
+             <h5 class="card-title">Acessórios</h5>
+             {% if carro.acessorio.all %}
+             <ul>
+               {% for acessorio in carro.acessorio.all %}
+                  <li>{{acessorio}}</li>
+               {% endfor %}
+             </ul> 
+             {% else %}
+                <p>O veiculo não possui acessórios!</p>
+             {% endif %}
+            <div class="btn-group">
+            {% if carro.user.username != user.username %}
+              {% if carro.venda %}
+                 <button class="btn btn-danger btn-lg">Aquardando pagamento</button>
+              {% else %}
+              <a class="btn btn-primary btn-lg" href="{% url 'venda' carro.id %}" title="">COMPRAR</a>
+              {% endif%}     
+                  
+            {% else %}
+            <a class="btn btn-warning btn-lg" href="{% url 'editar' carro.id %}" title="">EDITAR</a>
+            <a class="btn btn-danger btn-lg" href="{% url 'apagar' carro.id %}" onclick="return confirm('Deseja mesmo apagar o anuncio?')">APAGAR</a>
+            {% endif %}
+            </div>  
+
+
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card border-0">
+              <div class="card-body">
+                <h1 class="card-title text-center">R$ {{carro.preco}}</h1>
+                <p class="card-text">Proprietário: {{carro.user.username}}</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+
+   </div>
+ </div>
+</dir>
+{% endblock %}
+
