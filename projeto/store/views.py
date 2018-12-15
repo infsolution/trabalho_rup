@@ -8,8 +8,7 @@ from django.core.files.storage import FileSystemStorage
 import datetime
 
 def index(request):
-	imoveis = Imovel.objects.all().order_by('data_do_anuncio')[:3]
-	print(imoveis)
+	imoveis = Imovel.objects.all().order_by('-data_do_anuncio')[:3]
 	return render(request,'store/index.html',{'imoveis':imoveis})
 
 def cadastro(request):
@@ -53,7 +52,7 @@ def add_imovel(request):
 		tipo = Tipo.objects.get(id=request.POST['tipo'])
 		status = Status.objects.get(id=request.POST['status'])
 		imovel = Imovel(user= request.user, area = request.POST['area'], 
-			numero_de_quarto = request.POST['area'], 
+			numero_de_quarto = request.POST['numero_de_quarto'], 
 			numero_de_banheiros = request.POST['numero_de_banheiros'],
 			numero_de_vagas  = request.POST['numero_de_vagas'], 
 			descricao = request.POST['descricao'], 
@@ -61,7 +60,10 @@ def add_imovel(request):
 			preco_condominio = request.POST['preco_condominio'], 
 			status = status, tipo=tipo)
 		imovel.save()
-		ok_msg = 'O imovel foi anuncioado'
+		address = Endereco(imovel=imovel, logradouro = request.POST['logradouro'], 
+			nome_logradouro = request.POST['nome_log'], numero = request.POST['numero'], 
+			bairro = request.POST['bairro'], cidade = request.POST['cidade'], estado = request.POST['estado'])
+		address.save()
 		for image in request.FILES.getlist('images'):
 			up_image = image
 			fs = FileSystemStorage()
@@ -69,7 +71,7 @@ def add_imovel(request):
 			url = fs.url(name)
 			foto = Foto(imovel = imovel, image = url)
 			foto.save()
-			print(foto.image)
+		ok_msg = 'O imovel foi anunciado'
 		return redirect('/add', {'ok_msg':ok_msg})
 	else:
 		form = ImovelModelForm()
@@ -77,30 +79,30 @@ def add_imovel(request):
 
 def detalhes(request, imovel_id):
 	imovel = Imovel.objects.get(id=imovel_id)
-	#sugestoes = Carro.objects.filter(descricao__contains=carro.modelo) | Carro.objects.filter(ano_fabricacao=carro.ano_fabricacao)
-	return render(request, 'store/carro.html', {'imovel':imovel})
+	sugestoes = Imovel.objects.filter(preco__lte=imovel.preco)
+	return render(request, 'store/imovel.html', {'imovel':imovel, 'sugestoes':sugestoes})
 
 @login_required(login_url='login')
-def editar(request, carro_id):
-	carro = Carro.objects.get(id=carro_id)
+def editar(request, imovel_id):
+	imovel = Imovel.objects.get(id=imovel_id)
 	if request.method == 'POST':
-		form = CarroModelForm(request.POST, instance=carro)
+		form = ImovelModelForm(request.POST, instance=imovel)
 		if form.is_valid():
 			form.save()
 			return redirect('perfil')
 		return render(request, 'store/update_car.html', {'form':form})
 	else:
-		form = CarroModelForm(instance=carro)
-		return render(request, 'store/update_car.html', {'form':form})		
+		form = ImovelModelForm(instance=imovel)
+		return render(request, 'store/update_imovel.html', {'form':form})		
 		
 @login_required(login_url='login')
-def apagar(request, carro_id):
-	carro = Carro.objects.get(id=carro_id)
-	carro.delete()
+def apagar(request, imovel_id):
+	imovel = Imovel.objects.get(id=imovel_id)
+	imovel.delete()
 	return redirect('perfil')
 
 @login_required(login_url='login')
-def comprar(request, carro_id):
+def comprar(request, imovel_id):
 	carro = Carro.objects.get(id=carro_id)
 	return render(request, 'store/compra.html', {'carro':carro})
 
@@ -111,7 +113,7 @@ def search(request):
 	return render(request,'store/index.html',{'carros':carros,'sugestoes':sugestoes})
 
 @login_required(login_url='login')
-def venda(request, carro_id):
+def venda(request, imovel_id):
 	carro = Carro.objects.get(id=carro_id)
 	if request.method == 'POST':
 		venda = Venda(carro=carro, comprador=request.user,

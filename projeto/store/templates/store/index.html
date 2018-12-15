@@ -41,6 +41,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="{% url 'index' %}">StarLife</a>
+
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fas fa-bars"></i>
@@ -106,9 +107,10 @@
           {% for imovel in imoveis%}
           <div class="col-md-4">
             <span class="fa-stack fa-4x">
-              <img class="card-img-top" src="{{imovel.fotos.all.0.image}}" alt="">
+              <a href="{% url 'detalhes' imovel.id %}"><img class="card-img-top" src="{{imovel.fotos.all.0.image}}" alt="{{imovel.descricao}}"></a>
             </span>
-            <h4 class="service-heading">{{imovel.area}}</h4>
+            <h4 class="service-heading"><a href="{% url 'detalhes' imovel.id %}">{{imovel.tipo}}</a></h4>
+             <p class="text-muted">{{imovel.endereco.logradouro}}: {{imovel.endereco.nome_logradouro}}</p>
             <p class="text-muted">{{imovel.descricao}}</p>
           </div>
           {% endfor %}
@@ -240,7 +242,7 @@
             <div class="team-member">
               <img class="mx-auto rounded-circle" src="/media/agency-template/img/team/1.jpg" alt="">
               <h4>Clara Construtora</h4>
-              <p class="text-muted">Lead Designer</p>
+              <p class="text-muted">147 imóveis</p>
               <!--ul class="list-inline social-buttons">
                 <li class="list-inline-item">
                   <a href="#">
@@ -264,7 +266,7 @@
             <div class="team-member">
               <img class="mx-auto rounded-circle" src="/media/agency-template/img/team/2.jpg" alt="">
               <h4>Venha Construir Eng.</h4>
-              <p class="text-muted">Lead Marketer</p>
+              <p class="text-muted">110 imóveis</p>
               <!--ul class="list-inline social-buttons">
                 <li class="list-inline-item">
                   <a href="#">
@@ -288,7 +290,7 @@
             <div class="team-member">
               <img class="mx-auto rounded-circle" src="/media/agency-template/img/team/3.jpg" alt="">
               <h4>Integra Comstrutora</h4>
-              <p class="text-muted">Lead Developer</p>
+              <p class="text-muted">78 imóveis</p>
               <!--ul class="list-inline social-buttons">
                 <li class="list-inline-item">
                   <a href="#">
