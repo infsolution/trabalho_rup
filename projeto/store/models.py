@@ -22,10 +22,10 @@ class Imovel(models.Model):
 	preco = models.FloatField(default=0)
 	preco_condominio = models.FloatField(default=0)
 	data_do_anuncio = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-	tipo = models.OneToOneField(Tipo,on_delete = models.CASCADE, related_name='tipo')
-	status = models.OneToOneField(Status,on_delete = models.CASCADE, related_name='status')
+	tipo = models.ForeignKey(Tipo,on_delete = models.CASCADE, related_name='tipo')
+	status = models.ForeignKey(Status,on_delete = models.CASCADE, related_name='status')
 	def __str__(self):
-		return self.area
+		return str(self.area)
 
 class Venda(models.Model):
 	imovel = models.OneToOneField(Imovel, on_delete = models.CASCADE,related_name='venda')
@@ -38,6 +38,7 @@ class Venda(models.Model):
 class Foto(models.Model):
 	imovel = models.ForeignKey(Imovel,on_delete=models.CASCADE,related_name='fotos')
 	image=models.ImageField(blank=True, null=True,upload_to = 'media/')
+
 
 class Endereco(models.Model):
  	imovel = models.OneToOneField(Imovel, on_delete = models.CASCADE,related_name='endereco')

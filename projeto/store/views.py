@@ -8,7 +8,8 @@ from django.core.files.storage import FileSystemStorage
 import datetime
 
 def index(request):
-	imoveis = Imovel.objects.all().order_by('-data_do_anuncio')
+	imoveis = Imovel.objects.all().order_by('data_do_anuncio')[:3]
+	print(imoveis)
 	return render(request,'store/index.html',{'imoveis':imoveis})
 
 def cadastro(request):
@@ -49,13 +50,16 @@ def get_perfil(request):
 def add_imovel(request):
 	ok_msg = 'Ocorreu um erro ao criar o anúncio!'
 	if request.method == 'POST':
+		tipo = Tipo.objects.get(id=request.POST['tipo'])
+		status = Status.objects.get(id=request.POST['status'])
 		imovel = Imovel(user= request.user, area = request.POST['area'], 
 			numero_de_quarto = request.POST['area'], 
 			numero_de_banheiros = request.POST['numero_de_banheiros'],
 			numero_de_vagas  = request.POST['numero_de_vagas'], 
 			descricao = request.POST['descricao'], 
 			preco = request.POST['preco'], 
-			preco_condominio = request.POST['preco_condominio'])
+			preco_condominio = request.POST['preco_condominio'], 
+			status = status, tipo=tipo)
 		imovel.save()
 		ok_msg = 'O imovel foi anuncioado'
 		for image in request.FILES.getlist('images'):
@@ -65,7 +69,7 @@ def add_imovel(request):
 			url = fs.url(name)
 			foto = Foto(imovel = imovel, image = url)
 			foto.save()
-		tipo = Tipo(imovel = imovel, nome_tipo = request.POST['tipo'])
+			print(foto.image)
 		return redirect('/add', {'ok_msg':ok_msg})
 	else:
 		form = ImovelModelForm()
