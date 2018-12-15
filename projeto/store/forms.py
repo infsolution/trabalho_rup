@@ -34,38 +34,22 @@ class UserModelForm(forms.ModelForm):
         return user  
 
 
-class CarroModelForm(forms.ModelForm):
+class ImovelModelForm(forms.ModelForm):
     class Meta:
-        model = Carro
-        #fields = ['marca','modelo', 'ano_modelo', 'ano_fabricacao', 'nume_portas','foto']
+        model = Imovel
         exclude = ['user']
         widgets={
-        	'marca':forms.Select(attrs={'class':'form-control'}),
-            'modelo':forms.TextInput(attrs={'class':'form-control', 'maxlength':255}),
-            'ano_modelo':forms.TextInput(attrs={'class':'form-control', 'maxlength':255}),
-            'ano_fabricacao':forms.TextInput(attrs={'class':'form-control', 'maxlength':255}),
-            'nume_portas':forms.NumberInput(attrs={'class':'form-control'}),
+            'area':forms.NumberInput(attrs={'class':'form-control'}),
+        	'numero_de_quarto':forms.NumberInput(attrs={'class':'form-control'}),
+            'numero_de_banheiros':forms.NumberInput(attrs={'class':'form-control'}),
+            'numero_de_vagas':forms.NumberInput(attrs={'class':'form-control'}),
             'descricao':forms.Textarea(attrs={'class':'form-control'}),
-            'foto':forms.FileInput(attrs={'class':'form-control'}),
             'preco':forms.NumberInput(attrs={'class':'form-control'}),
-            'acessorio':forms.CheckboxSelectMultiple(attrs={'class':'checkbox form-control'}),
-        }
-        error_messages = {
-	        'modelo':{
-	        	'required':'Informe o modelo do veiculo!'
-	        },
-	        'ano_fabricacao':{
-	        	'required':'Informe o ano de fabricação do veiculo!'
-	        }
+            'preco_condominio':forms.NumberInput(attrs={'class':'form-control'}),
+            'tipo':forms.Select(attrs={'class':'form-control'}),
+            'status':forms.Select(attrs={'class':'form-control'}),
         }
 
-class AcessorioModelForm(forms.ModelForm):
-    class Meta:
-        model = Acessorio
-        fields = ['nome']
-        widgets={
-             'nome':forms.TextInput(attrs={'class':'form-control', 'maxlength':255})
-        }
 
 class VendaModelForm(forms.ModelForm):
 	class Meta:

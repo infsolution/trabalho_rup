@@ -8,8 +8,8 @@ from django.core.files.storage import FileSystemStorage
 import datetime
 
 def index(request):
-	carros = Carro.objects.all().order_by('-data_do_anuncio')
-	return render(request,'store/index.html',{'carros':carros})
+	imoveis = Imovel.objects.all().order_by('-data_do_anuncio')
+	return render(request,'store/index.html',{'imoveis':imoveis})
 
 def cadastro(request):
 	form = UserModelForm(request.POST)
@@ -46,31 +46,35 @@ def get_perfil(request):
 	return render(request, 'store/perfil.html')
 
 @login_required(login_url='login')
-def add_car(request):
+def add_imovel(request):
+	ok_msg = 'Ocorreu um erro ao criar o anúncio!'
 	if request.method == 'POST':
-		#form = CarroModelForm(request.POST, request.FILES)
-		up_image = request.FILES['foto']
-		fs = FileSystemStorage()
-		name = fs.save(up_image.name, up_image)
-		url = fs.url(name)
-		marca = Marca.objects.get(id=request.POST['marca'])
-		carro = Carro(marca = marca, user = request.user, modelo = request.POST['modelo'], 
-		ano_modelo = request.POST['ano_modelo'], ano_fabricacao = request.POST['ano_fabricacao'],
-		numero_de_portas = request.POST['numero_de_portas'], foto = url, 
-		descricao=request.POST['descricao'], preco=request.POST['preco'])
-		carro.save()
-		for acess in request.POST.getlist('acessorio'):
-			acs = Acessorio.objects.get(id=acess)
-			carro.acessorio.add(acs)
-		return redirect('/add')
+		imovel = Imovel(user= request.user, area = request.POST['area'], 
+			numero_de_quarto = request.POST['area'], 
+			numero_de_banheiros = request.POST['numero_de_banheiros'],
+			numero_de_vagas  = request.POST['numero_de_vagas'], 
+			descricao = request.POST['descricao'], 
+			preco = request.POST['preco'], 
+			preco_condominio = request.POST['preco_condominio'])
+		imovel.save()
+		ok_msg = 'O imovel foi anuncioado'
+		for image in request.FILES.getlist('images'):
+			up_image = image
+			fs = FileSystemStorage()
+			name = fs.save(up_image.name, up_image)
+			url = fs.url(name)
+			foto = Foto(imovel = imovel, image = url)
+			foto.save()
+		tipo = Tipo(imovel = imovel, nome_tipo = request.POST['tipo'])
+		return redirect('/add', {'ok_msg':ok_msg})
 	else:
-		form = CarroModelForm()
-		return render(request, 'store/add_car.html', {'form':form})
+		form = ImovelModelForm()
+		return render(request, 'store/add_imovel.html', {'form':form})
 
-def detalhes(request, carro_id):
-	carro = Carro.objects.get(id=carro_id)
-	sugestoes = Carro.objects.filter(descricao__contains=carro.modelo) | Carro.objects.filter(ano_fabricacao=carro.ano_fabricacao)
-	return render(request, 'store/carro.html', {'carro':carro, 'sugestoes':sugestoes})
+def detalhes(request, imovel_id):
+	imovel = Imovel.objects.get(id=imovel_id)
+	#sugestoes = Carro.objects.filter(descricao__contains=carro.modelo) | Carro.objects.filter(ano_fabricacao=carro.ano_fabricacao)
+	return render(request, 'store/carro.html', {'imovel':imovel})
 
 @login_required(login_url='login')
 def editar(request, carro_id):

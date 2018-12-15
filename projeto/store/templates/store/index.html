@@ -4,20 +4,19 @@
 <div class="album py-5 bg-light">
 <div class="container">
 <div class="row">
-{% if carros %}
-{% for carro in carros %}
+{% if imoveis %}
+{% for imovel in imoveis %}
   <div class="col-md-4">
     <div class="card mb-4 shadow-sm">
-      <img class="card-img-top" src="{{carro.foto}}" alt="{{carro.modelo}}">
+      <img class="card-img-top" src="" alt="">
       <div class="card-body">
-        <h5 class="card-title">{{carro.modelo}}</h5>
-        <p class="card-text">{{ carro.descricao }}.</p>
+        <h5 class="card-title">{{imovel.area}}</h5>
+        <p class="card-text">{{ imovel.descricao }}.</p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
-           <a class="btn btn-primary btn-lg" href="{% url 'detalhes' carro.id %}" title="">Detalhes</a>
-           <!--a class="btn btn-danger btn-lg" href="{% url 'detalhes' carro.id %}" title="">Denunciar</a-->
+           <a class="btn btn-primary btn-lg" href="{% url 'detalhes' imovel.id %}" title="">Detalhes</a>
           </div>
-          <small class="text-muted">{{carro.user.username}}</small>
+          <small class="text-muted">{{imovel.user.username}}</small>
         </div>
       </div>
     </div>
@@ -28,7 +27,7 @@
   <div class="card mb-6 border-0">
     <img class="card-img-top" src="/media/images/cara_triste.jpg" alt="{{carro.modelo}}"id="triste">
     <div class="card-body">
-      <h5 class="card-title">Não existem carros cadastrados.</h5>
+      <h5 class="card-title">Não existem imóveis cadastrados.</h5>
     </div>
   </div>
 </div>
@@ -46,7 +45,7 @@
         <p class="card-text">{{ carro.descricao }}.</p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
-           <a class="btn btn-primary btn-lg" href="{% url 'detalhes' carro.id %}" title="">Detalhes</a>
+           <a class="btn btn-primary btn-lg" href="{% url 'detalhes' imovel.id %}" title="">Detalhes</a>
            <!--a class="btn btn-danger btn-lg" href="{% url 'detalhes' carro.id %}" title="">Denunciar</a-->
           </div>
           <small class="text-muted">{{carro.user.username}}</small>

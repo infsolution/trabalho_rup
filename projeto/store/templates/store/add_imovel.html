@@ -1,0 +1,44 @@
+{% extends "store/base.html" %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		{% if ok_msg %}
+			<div class="alert alert-success" role="alert">
+			 {{ ok_msg }}
+			</div>
+		{% endif %}
+		<div class="col-md-8">
+			<h2>Anucie seus imóvel</h2>
+			<form class="form-group" method="POST" enctype="multipart/form-data" action="{% url 'add' %}">
+				{% csrf_token %}
+				{{ form.as_p }}
+			
+				<p><label>Escolha um ou mais arquivos</label>
+				<input  class="form-control" type="file" id="image" name="images" multiple></p>
+				<h5>Endereço</h5>
+				<p><label>Logradouro:</label>
+				<input type="text" name="logradouro" value="" class="form-control">
+				</p>
+				<p><label>Nome do Logradouro</label>
+				<input type="text" name="nome_log" value="" class="form-control">
+				</p>
+				<p><label>Numero</label>
+				<input type="number" name="numero" value="" class="form-control">
+				</p>
+				<p><label>Bairro</label>
+				<input type="text" name="bairro" value="" class="form-control">
+				</p>
+				<p><label>Cidade</label>
+				<input type="text" name="cidade" value="" class="form-control">
+				</p>
+				<p><label>Estado</label>
+				<input type="text" name="estado" value="" class="form-control">
+				</p>
+				<button class="btn btn-lg btn-primary btn-block" type="submit"> Cadastrar</button>
+				<a class="btn btn-lg btn-danger btn-block" href="{% url 'perfil' %}">Cancelar</a>
+	
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

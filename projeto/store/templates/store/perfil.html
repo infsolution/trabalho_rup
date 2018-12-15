@@ -4,26 +4,26 @@
 
 <div class="album py-5 bg-light">
 <div class="container">
-  <h2>Seus carros</h2>
+  <h2>Seus Imóveis</h2>
 <div class="row">
-{% if user.meus_carros.all %}
-{% for carro in user.meus_carros.all %}
+{% if user.meus_imoveis.all %}
+{% for imovel in user.meus_imoveis.all %}
   <div class="col-md-4">
     <div class="card mb-4 shadow-sm">
-      <img class="card-img-top" src="{{carro.foto}}" alt="{{carro.modelo}}">
+      <img class="card-img-top" src="" alt="">
       <div class="card-body">
-        <h5 class="card-title">{{ carro.modelo }}</h5>
-        <p class="card-text">{{ carro.descricao }}.</p>
+        <h5 class="card-title">{{ imovel.area }}</h5>
+        <p class="card-text">{{ imovel.descricao }}.</p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
-            <a class="btn btn-primary btn-lg" href="{% url 'detalhes' carro.id %}">
+            <a class="btn btn-primary btn-lg" href="{% url 'detalhes' imovel.id %}">
               Detalhes
             </a>
-            <a class="btn btn-success btn-lg" href="{% url 'editar' carro.id %}">
+            <a class="btn btn-success btn-lg" href="{% url 'editar' imovel.id %}">
             Editar
             </a>
           </div>
-          <small class="text-muted">{{ carro.data_do_anuncio }}</small>
+          <small class="text-muted">{{ imovel.data_do_anuncio }}</small>
         </div>
       </div>
     </div>
