@@ -25,7 +25,7 @@ class Imovel(models.Model):
 	tipo = models.ForeignKey(Tipo,on_delete = models.CASCADE, related_name='tipo')
 	status = models.ForeignKey(Status,on_delete = models.CASCADE, related_name='status')
 	def __str__(self):
-		return str(self.area)
+		return str(self.id)
 
 class Venda(models.Model):
 	imovel = models.OneToOneField(Imovel, on_delete = models.CASCADE,related_name='venda')
@@ -52,3 +52,9 @@ class Endereco(models.Model):
 class Caracteristica(models.Model):
  	imovel = models.ForeignKey(Imovel,on_delete=models.CASCADE,related_name='caracteristicas')
  	nome_caracteristica = models.CharField(max_length=255)
+
+class Mensagem(models.Model):
+	imovel = models.ForeignKey(Imovel,on_delete=models.CASCADE,related_name='mensagens')
+	interessado = models.ForeignKey(User, on_delete=models.CASCADE, related_name='interessado')
+	mensagem = models.TextField()
+	data_mensagem = models.DateTimeField(auto_now_add=True, null=True, blank=True)

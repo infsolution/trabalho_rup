@@ -1,0 +1,17 @@
+{% extends "store/base.html" %}
+
+{% block body %}
+
+<form method="POST" accept-charset="utf-8">
+	{% csrf_token %}
+	<p><label>Proprietário</label>
+		<input type="text" name="proprietario" class="form-control" maxlength="100" value="{{imovel.user.username}}" disabled></p>
+		<p><label>Interesado</label>
+		<input type="text" name="comprador" class="form-control" maxlength="100" value="{{user.username}}" disabled></p>
+	{{ form.as_p }}
+	<p>
+	<button class="btn btn-lg btn-primary btn-block" type="">Enviar mensagem</button>
+	</p>
+</form>
+
+{% endblock %}

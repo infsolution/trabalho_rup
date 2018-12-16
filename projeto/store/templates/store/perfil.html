@@ -4,6 +4,13 @@
 
 <div class="album py-5 bg-light">
 <div class="container">
+  {% if mensagens %}
+  <div class="alert alert-success" role="alert">
+     Você tem {{ mensagens|length}} mensagen(s)
+     <p><a href="" title="">Ver mensagens</a></p>
+    </div>
+
+  {% endif %}
   <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4">Seus Imóveis</h1>

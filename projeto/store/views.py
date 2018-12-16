@@ -43,7 +43,16 @@ def do_logout(request):
 
 @login_required(login_url='login')
 def get_perfil(request):
-	return render(request, 'store/perfil.html')
+	mensagens = []
+	imoveis = Imovel.objects.filter(user=request.user)
+	for im in imoveis:
+		try:
+			mens = Mensagem.objects.filter(imovel=im)
+			for m in mens:
+				mensagens.append(m)
+		except Exception:
+			print('Exception')			
+	return render(request, 'store/perfil.html',{'mensagens':mensagens})
 
 @login_required(login_url='login')
 def add_imovel(request):
@@ -101,10 +110,6 @@ def apagar(request, imovel_id):
 	imovel.delete()
 	return redirect('perfil')
 
-@login_required(login_url='login')
-def comprar(request, imovel_id):
-	carro = Carro.objects.get(id=carro_id)
-	return render(request, 'store/compra.html', {'carro':carro})
 
 def search(request):
 	search = request.GET['search']
@@ -112,14 +117,14 @@ def search(request):
 	sugestoes = Carro.objects.filter(ano_modelo__contains='20').order_by('data_do_anuncio')[:3]
 	return render(request,'store/index.html',{'carros':carros,'sugestoes':sugestoes})
 
+
 @login_required(login_url='login')
 def venda(request, imovel_id):
-	carro = Carro.objects.get(id=carro_id)
+	imovel = Imovel.objects.get(id=imovel_id)
 	if request.method == 'POST':
-		venda = Venda(carro=carro, comprador=request.user,
-			prazo_pagamento=request.POST['prazo_pagamento'])
-		venda.save()
-		return redirect('comprar', carro_id)
+		mensagem = Mensagem(imovel=imovel, interessado = request.user, mensagem = request.POST['mensagem'])
+		mensagem.save()
+		return redirect('index')
 	else:
-		form = VendaModelForm()
-		return render(request,'store/venda.html',{'form':form, 'carro':carro})
+		form = MensagemModelForm()
+		return render(request,'store/mensagem.html',{'form':form, 'imovel':imovel})

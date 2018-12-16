@@ -64,3 +64,11 @@ class VendaModelForm(forms.ModelForm):
 	        	'required':'Informe o prazo desejado!'
 	        },
         }
+class MensagemModelForm(forms.ModelForm):
+    class Meta:
+        model = Mensagem
+        fields = ['mensagem']
+        widgets = {
+            'mensagem':forms.Textarea(attrs={'class':'form-control'})
+        }
+
