@@ -13,7 +13,7 @@
     <!--link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"-->
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/media/agency-template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -69,6 +69,9 @@
               <a class="nav-link js-scroll-trigger" href="{% url 'login' %}">Entrar</a>
             </li>
             {% endif %}
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/#search">Buscar</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -78,14 +81,43 @@
 
     {% endblock %}
     </div>
-        <footer class="text-muted">
-    <div class="container">
-        <p class="float-right">
-          <a href="#">Voltar ao topo</a>
-        </p>
-        <p> &copy;Vendcar, todos os direitos resevado.</p>
-        <p>Entre em contato <a href="#">aqui</a>.</p>
+        <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <span class="copyright">Todos os direitos reservados &copy; StarLife 2018</span>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline quicklinks">
+              <li class="list-inline-item">
+                <a href="#">Politicas de privacidade</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Termos de uso</a>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
     </footer>
     <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>

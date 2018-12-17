@@ -1,0 +1,54 @@
+{% extends "store/base.html" %}
+
+{% block body %}
+
+	<div class="row">
+<h4>Encontramos estes para você!</h4>
+		
+	</div>
+
+    <div class="row text-center">
+
+          {% if imoveis %}
+          {% for imovel in imoveis%}
+          <div class="col-md-4">
+            <span class="fa-stack fa-4x">
+              <a href="{% url 'detalhes' imovel.id %}"><img class="card-img-top" src="{{imovel.fotos.all.0.image}}" alt="{{imovel.descricao}}"></a>
+            </span>
+            <h4 class="service-heading"><a href="{% url 'detalhes' imovel.id %}">{{imovel.tipo}}</a></h4>
+             <p class="text-muted">{{imovel.endereco.logradouro}}: {{imovel.endereco.nome_logradouro}}</p>
+            <p class="text-muted">{{imovel.descricao}}</p>
+          </div>
+          {% endfor %}
+
+          {% else %}
+            <div class="col-md-4">
+            <span class="fa-stack fa-4x">
+              <img class="card-img-top" src="/media/images/cara_triste.jpg" alt=""id="triste">
+            </span>
+            <h4 class="service-heading">OPA!</h4>
+            <p class="text-muted">Não encontramos nenhum imóvel</p>
+          </div>
+
+          {% endif %}
+        </div>
+{%  if sugestoes %}
+<h4>Mas você pode gostar de um destes.</h4>
+{% endif %}
+	<div class="row text-center">
+
+		{% if sugestoes %}
+			 {% for imovel in sugestoes %}
+          <div class="col-md-4">
+            <span class="fa-stack fa-4x">
+              <a href="{% url 'detalhes' imovel.id %}"><img class="card-img-top" src="{{imovel.fotos.all.0.image}}" alt="{{imovel.descricao}}"></a>
+            </span>
+            <h4 class="service-heading"><a href="{% url 'detalhes' imovel.id %}">{{imovel.tipo}}</a></h4>
+             <p class="text-muted">{{imovel.endereco.logradouro}}: {{imovel.endereco.nome_logradouro}}</p>
+            <p class="text-muted">{{imovel.descricao}}</p>
+          </div>
+          {% endfor %}
+          {% endif %}
+		
+	</div>
+{% endblock %}

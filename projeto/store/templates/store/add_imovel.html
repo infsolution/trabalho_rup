@@ -7,7 +7,22 @@
 		{% endif %}
 	<div class="row">
 		<div class="col-md-4">
-			
+			<h4>Mais procurados</h4>
+			{% if sugestoes %}
+		      {% for sugestao in sugestoes %}
+		        <div class="card mb-3">
+		          <a href="{% url 'detalhes' sugestao.id %}">
+		          <img class="card-img-top" src="{{sugestao.fotos.all.0.image}}" alt="{{sugestao.descricao}}">
+		          </a>
+		          <div class="card-body">
+		            <h5 class="card-title">{{sugestao.tipo}} {{sugestao.numero_de_quarto}} Quartos.</h5>
+		            <p class="card-text">{{sugestao.data_do_anuncio}}</p>
+		          </div>
+		        </div>  
+
+
+		      {% endfor %}
+		      {% endif %}
 		</div>
 		
 		<div class="col-md-8">

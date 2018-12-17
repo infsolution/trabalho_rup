@@ -79,37 +79,6 @@
 {% endblock %}
 {% block body %}
 
-<!--div class="container">
-	{% if error_login %}
-		<div class="alert alert-danger" role="alert">
-		 {{ error_login }}
-		</div>
-	{% endif %}
-	<form class="form-group" action="{% url 'login' %}"  method="POST">
-		<div class="form-group">
-			<div class="col-md-12">
-				<h2 class="form-signin-heading">Entrar</h2>
-			</div>
-		</div>
-		{% csrf_token %}
-		<div class="form-group">
-			<div class="col-md-12">
-				<input type="text" name="username" class="form-control" required placeholder="Usuario">
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-12">
-				<input type="password" name="password" class="form-control" required placeholder="Senha">
-			</div>
-		</div>
-		<div class="col-md-12">
-		<button class="btn btn-lg btn-primary btn-block" type="subimit">Entre</button>
-		</div>
-	</form>
-</div-->
-
-<!--div id="fullscreen_bg" class="fullscreen_bg"/-->
-
 <div class="container">
 
 	<form class="form-signin" action="{% url 'login' %}"  method="POST">

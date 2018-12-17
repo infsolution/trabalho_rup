@@ -84,7 +84,8 @@ def add_imovel(request):
 		return redirect('/add', {'ok_msg':ok_msg})
 	else:
 		form = ImovelModelForm()
-		return render(request, 'store/add_imovel.html', {'form':form})
+		sugestoes = Imovel.objects.filter(preco__lte=360000)
+		return render(request, 'store/add_imovel.html', {'form':form, 'sugestoes':sugestoes})
 
 def detalhes(request, imovel_id):
 	imovel = Imovel.objects.get(id=imovel_id)
@@ -113,9 +114,11 @@ def apagar(request, imovel_id):
 
 def search(request):
 	search = request.GET['search']
-	carros = Carro.objects.filter(modelo__contains=search) | Carro.objects.filter(descricao__contains=search)
-	sugestoes = Carro.objects.filter(ano_modelo__contains='20').order_by('data_do_anuncio')[:3]
-	return render(request,'store/index.html',{'carros':carros,'sugestoes':sugestoes})
+	sugestoes = []
+	imoveis = Imovel.objects.filter(descricao__contains=search)
+	if len(imoveis) <= 0:
+		sugestoes = Imovel.objects.filter(preco__lte=360000).order_by('data_do_anuncio')[:3]
+	return render(request,'store/search.html',{'imoveis':imoveis,'sugestoes':sugestoes})
 
 
 @login_required(login_url='login')
